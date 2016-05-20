@@ -41,24 +41,18 @@ module.exports = postcss.plugin('postcss-palette', function (opts) {
     };
 
     return function (css) {
-        css.walkDecls('color', function (decl) {
-            decl.value = pickFromPalette(decl.value);
+        ['color', 'fill', 'stroke'].forEach(function (key) {
+            css.walkDecls(key, function (decl) {
+                decl.value = pickFromPalette(decl.value);
+            });
         });
-
-        css.walkDecls(/^background/, function (decl) {
-            decl.value = multipleRulesChange(decl.value);
+        [/^background/, 'box-shadow', 'text-shadow'].forEach(function (key) {
+            css.walkDecls(key, function (decl) {
+                decl.value = multipleRulesChange(decl.value);
+            });
         });
-
         css.walkDecls(/^border/, function (decl) {
             decl.value = ruleChange(decl.value);
-        });
-
-        css.walkDecls('box-shadow', function (decl) {
-            decl.value = multipleRulesChange(decl.value);
-        });
-
-        css.walkDecls('text-shadow', function (decl) {
-            decl.value = multipleRulesChange(decl.value);
         });
     };
 });
