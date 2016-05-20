@@ -173,6 +173,54 @@ describe('postcss-palette', function () {
         });
     });
 
+    it('changes fill color specified by palette', function (done) {
+        var options = {
+            palette: {
+                red:  '#123456',
+                blue: 'rgba(0,0,0,.5)'
+            }
+        };
+
+        parallel([
+            function (cb) {
+                test('a{ fill: red; }',
+                    'a{ fill: #123456; }',
+                    options, cb);
+            },
+            function (cb) {
+                test('a{ fill: blue; }',
+                    'a{ fill: rgba(0,0,0,.5); }',
+                    options, cb);
+            }
+        ], function (err) {
+            done(err);
+        });
+    });
+
+    it('changes stroke color specified by palette', function (done) {
+        var options = {
+            palette: {
+                red:  '#123456',
+                blue: 'rgba(0,0,0,.5)'
+            }
+        };
+
+        parallel([
+            function (cb) {
+                test('a{ stroke: red; }',
+                    'a{ stroke: #123456; }',
+                    options, cb);
+            },
+            function (cb) {
+                test('a{ stroke: blue; }',
+                    'a{ stroke: rgba(0,0,0,.5); }',
+                    options, cb);
+            }
+        ], function (err) {
+            done(err);
+        });
+    });
+
     it('does not change color if not present in palette', function (done) {
         test('a{ color: red; }', 'a{ color: red; }', {
             palette: {
